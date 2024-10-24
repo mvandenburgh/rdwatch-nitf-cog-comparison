@@ -47,7 +47,7 @@ def main():
         bboxes = json.loads((Path(__file__).parent / "bounding_boxes.json").read_text())
 
         for filename, bbox in bboxes.items():
-            base_url = f"s3://{S3_BUCKET}/"
+            base_url = f"/vsis3/{S3_BUCKET}/"
             nitf_url = base_url + filename + ".nitf"
             tif_url = base_url + "converted_cogs/" + filename + ".nitf.tif"
             bbox = bbox["x_min"], bbox["y_min"], bbox["x_max"], bbox["y_max"]
