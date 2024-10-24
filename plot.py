@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_chipping_times(results):
+def plot_chipping_times(results, name: str):
     """Plot COG vs NITF chipping times."""
     filenames = list(results.keys())
     cog_times = [results[filename]["cog_time"] for filename in filenames]
@@ -28,11 +28,11 @@ def plot_chipping_times(results):
     ax.legend()
 
     fig.tight_layout()
-    plt.savefig("chipping_times_comparison.png")
+    plt.savefig(f"chipping_times_comparison_{name}.png")
     plt.show()
 
 
-def plot_filesize_vs_chipping_time(results):
+def plot_filesize_vs_chipping_time(results, name: str):
     """Plot NITF file size vs chipping times."""
     filenames = list(results.keys())
     nitf_filesizes = [
@@ -54,15 +54,17 @@ def plot_filesize_vs_chipping_time(results):
     plt.title("NITF File Size vs Chipping Time")
     plt.legend()
 
-    plt.savefig("nitf_filesize_vs_chipping_time.png")
+    plt.savefig(f"nitf_filesize_vs_chipping_time_{name}.png")
     plt.show()
 
 
 def load_results():
     """Load results from results.json."""
-    results_dest = Path(__file__).parent / "results.json"
-    with results_dest.open() as f:
-        results = json.load(f)
+    results = []
+    for file in ['results.json', 'results_with_vsil_curl_chunk_size.json']:
+        results_dest = Path(__file__).parent / file
+        with results_dest.open() as f:
+            results.append(json.load(f))
     return results
 
 
@@ -70,8 +72,10 @@ def main():
     results = load_results()
 
     # Generate plots
-    plot_chipping_times(results)
-    plot_filesize_vs_chipping_time(results)
+    plot_chipping_times(results[0], 'without_vsil_curl_chunk_size')
+    plot_filesize_vs_chipping_time(results[0], 'without_vsil_curl_chunk_size')
+    plot_chipping_times(results[1], 'with_vsil_curl_chunk_size')
+    plot_filesize_vs_chipping_time(results[1], 'with_vsil_curl_chunk_size')
 
 
 if __name__ == "__main__":
