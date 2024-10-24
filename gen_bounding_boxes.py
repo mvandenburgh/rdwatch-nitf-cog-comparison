@@ -30,8 +30,8 @@ def generate_random_bbox_geospatial(transform, width, height):
     """Generate a random bounding box in geospatial (EPSG:4326) coordinates."""
     # Generate random pixel coordinates within image bounds
     factor = 64
-    x_min_px = random.randint(0, width // factor)
-    y_min_px = random.randint(0, height // factor)
+    x_min_px = random.randint(0, width - width // factor)
+    y_min_px = random.randint(0, height - height // factor)
     x_max_px = x_min_px + width // factor
     y_max_px = y_min_px + height // factor
 
