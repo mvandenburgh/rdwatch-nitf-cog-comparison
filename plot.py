@@ -22,7 +22,7 @@ def plot_chipping_times(results, name: str):
     # Add labels, title, and custom x-axis tick labels
     ax.set_xlabel("Files")
     ax.set_ylabel("Chipping Time (seconds)")
-    ax.set_title("COG vs NITF Chipping Times")
+    ax.set_title("COG vs NITF Chipping Times" + f" ({name})")
     ax.set_xticks(x)
     ax.set_xticklabels(filenames, rotation=90)
     ax.legend()
@@ -51,7 +51,7 @@ def plot_filesize_vs_chipping_time(results, name: str):
 
     plt.xlabel("NITF File Size (MB)")
     plt.ylabel("NITF Chipping Time (seconds)")
-    plt.title("NITF File Size vs Chipping Time")
+    plt.title("NITF File Size vs Chipping Time" + f" ({name})")
     plt.legend()
 
     plt.savefig(f"nitf_filesize_vs_chipping_time_{name}.png")

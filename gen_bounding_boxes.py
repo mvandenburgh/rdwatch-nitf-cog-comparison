@@ -59,6 +59,8 @@ def main():
     for nitf in nitf_dir.glob("*.nitf"):
         print("Generating bounding boxes for", nitf.stem)
 
+        bboxes[nitf.stem] = []
+
         with Reader(nitf) as cog:
             # Get image dimensions and transform
             img_info = cog.info()
@@ -66,11 +68,12 @@ def main():
             height = img_info.height
             transform = cog.dataset.transform  # Affine transform of the image
 
-            # Generate a random bounding box in geospatial coordinates (EPSG:4326)
-            bbox = generate_random_bbox_geospatial(transform, width, height)
+            for _ in range(10):
+                # Generate a random bounding box in geospatial coordinates (EPSG:4326)
+                bbox = generate_random_bbox_geospatial(transform, width, height)
 
-            # Save bounding box to JSON
-            bboxes[nitf.stem] = bbox
+                # Save bounding box to JSON
+                bboxes[nitf.stem].append(bbox)
 
     # Write the bounding boxes to a JSON file
     bbox_json.write_text(json.dumps(bboxes, indent=2))
